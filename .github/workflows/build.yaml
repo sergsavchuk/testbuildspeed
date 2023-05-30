@@ -61,10 +61,10 @@ jobs:
         uses: 'google-github-actions/setup-gcloud@v1'
       - name: Archive and send cache
         run: |
-          tar -xf gradle_wrapper.tar ~/.gradle/wrapper
-          tar -xf gradle_caches.tar ~/.gradle/caches
-          tar -xf gradle.tar .gradle
-          tar -xf build.tar app/build
+          tar -cf gradle_wrapper.tar ~/.gradle/wrapper
+          tar -cf gradle_caches.tar ~/.gradle/caches
+          tar -cf gradle.tar .gradle
+          tar -cf build.tar app/build
           gcloud storage cp gradle_wrapper.tar gs://tictactoe-9681c.appspot.com/
           gcloud storage cp gradle_caches.tar gs://tictactoe-9681c.appspot.com/
           gcloud storage cp gradle.tar gs://tictactoe-9681c.appspot.com/
