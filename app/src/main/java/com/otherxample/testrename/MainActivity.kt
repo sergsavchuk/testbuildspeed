@@ -1,43 +1,21 @@
 package com.otherxample.testrename
 
 import android.os.Bundle
+import android.webkit.WebView
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.otherxample.testrename.ui.theme.TestBuildSpeedTheme
+import com.google.gson.Gson
+import java.io.InputStreamReader
+
+data class Config(val myVar: String)
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            TestBuildSpeedTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    Greeting("Vasya")
-                }
-            }
-        }
-    }
-}
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-            text = "Hello $name!",
-            modifier = modifier
-    )
-}
+        val myWebView = WebView(this)
+        setContentView(myWebView)
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    TestBuildSpeedTheme {
-        Greeting("Android")
+        val inputStream = this.assets.open("config.json")
+        myWebView.loadUrl(Gson().fromJson(InputStreamReader(inputStream), Config::class.java).myVar)
     }
 }
