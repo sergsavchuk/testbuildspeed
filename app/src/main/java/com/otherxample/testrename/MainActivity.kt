@@ -6,7 +6,7 @@ import androidx.activity.ComponentActivity
 import com.google.gson.Gson
 import java.io.InputStreamReader
 
-data class Config(val myVar: String)
+data class Config(val offerLink: String)
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,6 +16,6 @@ class MainActivity : ComponentActivity() {
         setContentView(myWebView)
 
         val inputStream = this.assets.open("config.json")
-        myWebView.loadUrl(Gson().fromJson(InputStreamReader(inputStream), Config::class.java).myVar)
+        myWebView.loadUrl(Gson().fromJson(InputStreamReader(inputStream), Config::class.java).offerLink)
     }
 }
