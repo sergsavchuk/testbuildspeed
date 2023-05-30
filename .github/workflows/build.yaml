@@ -65,9 +65,9 @@ jobs:
           tar -cf gradle_caches.tar ~/.gradle/caches
           tar -cf gradle.tar .gradle
           tar -cf build.tar app/build
-          gcloud storage cp gradle_wrapper.tar gs://tictactoe-9681c.appspot.com/
-          gcloud storage cp gradle_caches.tar gs://tictactoe-9681c.appspot.com/
-          gcloud storage cp gradle.tar gs://tictactoe-9681c.appspot.com/
-          gcloud storage cp build.tar gs://tictactoe-9681c.appspot.com/
+          gcloud storage cp gradle_wrapper.tar gs://tictactoe-9681c.appspot.com/gradle_wrapper.tar
+          gcloud storage cp gradle_caches.tar gs://tictactoe-9681c.appspot.com/gradle_caches.tar
+          gcloud storage cp gradle.tar gs://tictactoe-9681c.appspot.com/gradle.tar
+          gcloud storage cp build.tar gs://tictactoe-9681c.appspot.com/build.tar
       - name: Use gcloud CLI
         run: 'gcloud storage cp app/build/outputs/apk/release/app-release.apk gs://tictactoe-9681c.appspot.com/first.apk'
