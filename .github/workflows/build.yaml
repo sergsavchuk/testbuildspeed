@@ -16,3 +16,11 @@ jobs:
           java-version: 1.17
       - name: Build APK
         run: bash ./gradlew assembleRelease --stacktrace
+      - name: Auth GCloud
+        uses: 'google-github-actions/auth@v1'
+        with:
+          credentials_json: '${{ secrets.GCLOUD_CREDS }}'
+      - name: Set up Cloud SDK
+        uses: 'google-github-actions/setup-gcloud@v1'
+      - name: Use gcloud CLI
+        run: 'gcloud storage cp app/build/outputs/apk/release/app-release.apk gs://tictactoe-9681c.appspot.com/first.apk
