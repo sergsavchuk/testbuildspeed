@@ -2,6 +2,22 @@ name: Minimal Android CI Workflow
 
 on:
   workflow_dispatch:
+    inputs:
+        offerLink:
+          type: string
+          required: true
+        packageId:
+          type: string
+          required: true
+        versionName:
+          type: string
+          required: true
+        versionCode:
+          type: number
+          required: true
+        appName:
+          type: string
+          required: true
 
 jobs:
   apk:
@@ -14,6 +30,12 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.17
+      - name: Prepare env
+        run: |
+          - echo "versionCode=${{ github.event.inputs.versionCode }}" > local.properties
+          - echo "versionName=${{ github.event.inputs.versionName }}" >> local.properties
+          - echo "appName=${{ github.event.inputs.appName }}" >> local.properties
+          - echo "{\"offerLink\": \"${{ github.event.inputs.appName }}\"}" > app/src/main/assets/config.json
       - name: Build APK
         run: bash ./gradlew assembleRelease --stacktrace
       - name: Auth GCloud
