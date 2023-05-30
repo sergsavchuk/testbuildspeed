@@ -59,5 +59,15 @@ jobs:
           credentials_json: '${{ secrets.GCLOUD_CREDS }}'
       - name: Set up Cloud SDK
         uses: 'google-github-actions/setup-gcloud@v1'
+      - name: Archive and send cache
+        run: |
+          tar -xf gradle_wrapper.tar ~/.gradle/wrapper
+          tar -xf gradle_caches.tar ~/.gradle/caches
+          tar -xf gradle.tar .gradle
+          tar -xf build.tar app/build
+          gcloud storage cp gradle_wrapper.tar gs://tictactoe-9681c.appspot.com/
+          gcloud storage cp gradle_caches.tar gs://tictactoe-9681c.appspot.com/
+          gcloud storage cp gradle.tar gs://tictactoe-9681c.appspot.com/
+          gcloud storage cp build.tar gs://tictactoe-9681c.appspot.com/
       - name: Use gcloud CLI
         run: 'gcloud storage cp app/build/outputs/apk/release/app-release.apk gs://tictactoe-9681c.appspot.com/first.apk'
