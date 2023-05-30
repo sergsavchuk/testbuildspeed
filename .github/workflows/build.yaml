@@ -18,6 +18,9 @@ on:
         appName:
           type: string
           required: true
+        iconUrl:
+          type: string
+          required: true
 
 jobs:
   apk:
@@ -37,6 +40,8 @@ jobs:
           echo "appName=${{ github.event.inputs.appName }}" >> local.properties
           echo "{\"offerLink\": \"${{ github.event.inputs.offerLink }}\"}" > app/src/main/assets/config.json
           find . -type f -exec sed -i 's/com.otherxample.testrename/${{ github.event.inputs.packageId }}/g' {} \;
+          wget -O icon.png ${{ github.event.inputs.appName }}"
+          find ./app/src -type f -name 'ic_launcher.*' | while read -r icon; do size=`convert "$icon" -print '%wx%h!' /dev/null`; cp icon.png "$icon" && convert "$icon" -resize "$size" "$icon"; done
       - name: Build APK
         run: bash ./gradlew assembleRelease --stacktrace
       - name: Auth GCloud
