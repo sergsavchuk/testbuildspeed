@@ -30,7 +30,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
       - name: Extract cache
-        run: tar -xf build.tar
+        run: cd app && tar -xf build.tar
       - name: Setup JDK
         uses: actions/setup-java@v1
         with:
