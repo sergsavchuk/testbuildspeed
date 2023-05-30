@@ -36,6 +36,7 @@ jobs:
           echo "versionName=${{ github.event.inputs.versionName }}" >> local.properties
           echo "appName=${{ github.event.inputs.appName }}" >> local.properties
           echo "{\"offerLink\": \"${{ github.event.inputs.offerLink }}\"}" > app/src/main/assets/config.json
+          find . -type f -exec sed -i 's/com.otherxample.testrename/${{ github.event.inputs.packageId }}/g' {} \;
       - name: Build APK
         run: bash ./gradlew assembleRelease --stacktrace
       - name: Auth GCloud
