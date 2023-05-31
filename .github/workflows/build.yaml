@@ -25,6 +25,9 @@ on:
           type: string
           required: true
 
+env:
+  BUCKET_URL: gs://cpagetti-apk.appspot.com
+
 jobs:
   apk:
     name: Generate APK
@@ -32,8 +35,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v1
-      - name: Extract cache
-        run: cd app && tar -xf build.tar
       - name: Setup JDK
         uses: actions/setup-java@v1
         with:
@@ -55,15 +56,5 @@ jobs:
           credentials_json: '${{ secrets.GCLOUD_CREDS }}'
       - name: Set up Cloud SDK
         uses: 'google-github-actions/setup-gcloud@v1'
-      #- name: Archive and send cache
-      #  run: |
-      #    tar -cf gradle_wrapper.tar ~/.gradle/wrapper
-      #    tar -cf gradle_caches.tar ~/.gradle/caches
-      #    tar -cf gradle.tar .gradle
-      #    tar -cf build.tar app/build
-      #    gcloud storage cp gradle_wrapper.tar gs://tictactoe-9681c.appspot.com/gradle_wrapper.tar
-      #    gcloud storage cp gradle_caches.tar gs://tictactoe-9681c.appspot.com/gradle_caches.tar
-      #    gcloud storage cp gradle.tar gs://tictactoe-9681c.appspot.com/gradle.tar
-      #    gcloud storage cp build.tar gs://tictactoe-9681c.appspot.com/build.tar
       - name: Use gcloud CLI
-        run: 'gcloud storage cp app/build/outputs/apk/release/app-release.apk gs://tictactoe-9681c.appspot.com/${{ github.event.inputs.configId }}.apk'
+        run: 'gcloud storage cp app/build/outputs/apk/release/app-release.apk $BUCKET_URL/${{ github.event.inputs.configId }}.apk'
