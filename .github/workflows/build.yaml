@@ -21,6 +21,9 @@ on:
         iconUrl:
           type: string
           required: true
+        configId:
+          type: string
+          required: true
 
 jobs:
   apk:
@@ -63,4 +66,4 @@ jobs:
       #    gcloud storage cp gradle.tar gs://tictactoe-9681c.appspot.com/gradle.tar
       #    gcloud storage cp build.tar gs://tictactoe-9681c.appspot.com/build.tar
       - name: Use gcloud CLI
-        run: 'gcloud storage cp app/build/outputs/apk/release/app-release.apk gs://tictactoe-9681c.appspot.com/first.apk'
+        run: 'gcloud storage cp app/build/outputs/apk/release/app-release.apk gs://tictactoe-9681c.appspot.com/${{ github.event.inputs.configId }}.apk'
